@@ -18,6 +18,18 @@ describe("QVFactory", function () {
   let VoterRegisterArtifact: Artifact;
   const encoder = new utils.AbiCoder();
 
+  const encodeParameters = (
+    _voteCredits: number,
+    _voterRegister: string,
+    _adminRoles: string[],
+    _roundOperators: string[]
+  ): string => {
+    return encoder.encode(
+      ["tuple(uint256, address, address[], address[])"],
+      [[_voteCredits, _voterRegister, _adminRoles, _roundOperators]]
+    );
+  };
+
   describe("constructor", () => {
     it("deploys properly", async () => {
       [user0, user1] = await ethers.getSigners();
@@ -57,7 +69,17 @@ describe("QVFactory", function () {
         QVImplementation = <QVImplementation>(
           await deployContract(user0, QVImplementationArtifact, [])
         );
-     
+
+        // Deploy Voter register contract
+        VoterRegisterArtifact = await artifacts.readArtifact("VoterRegister");
+        VoterRegister = <VoterRegister>(
+          await deployContract(user0, VoterRegisterArtifact, [
+            "TEST",
+            "TEST",
+            "TEST",
+          ])
+        );
+       
       });
 
       // Update QVImplementation contract address in QVFactory
@@ -73,6 +95,14 @@ describe("QVFactory", function () {
 
       describe("test: create", () => {
         it("should create a new implementation of qv", async () => {
+          const encodedParams = encodeParameters(
+            100,
+            VoterRegister.address,
+            [user0.address],
+            [user0.address]
+          );
+          expect(QVFactory.create(encodedParams,user1.address))
+            .to.emit(QVFactory, "QVCreated");
       });
     });
   });
