@@ -38,6 +38,42 @@ describe("QVFactory", function () {
     });
   });
 
-  describe("core functions", () => {
+    describe("core functions", () => {
+          before(async () => {
+        [user0, user1] = await ethers.getSigners();
+
+        // Deploy QVFactory contract
+        QVFactoryArtifact = await artifacts.readArtifact(
+          "QVFactory"
+        );
+        QVFactory = <QVFactory>(
+          await deployContract(user0, QVFactoryArtifact, [])
+        );
+
+        // Deploy QVImplementation contract
+        QVImplementationArtifact = await artifacts.readArtifact(
+          "QVImplementation"
+        );
+        QVImplementation = <QVImplementation>(
+          await deployContract(user0, QVImplementationArtifact, [])
+        );
+     
+      });
+
+      // Update QVImplementation contract address in QVFactory
+      describe("test: updateQVContract", () => {
+        it("should update qv contract address", async () => {
+          expect(QVFactory.updateQVContract(QVImplementation.address))
+            .to.emit(QVFactory, "QVContractUpdated")
+            .withArgs(
+              QVImplementation.address
+          ); 
+        });
+      });
+
+      describe("test: create", () => {
+        it("should create a new implementation of qv", async () => {
+      });
+    });
   });
 });
