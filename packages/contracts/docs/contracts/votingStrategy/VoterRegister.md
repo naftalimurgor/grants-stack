@@ -10,6 +10,22 @@ Badge contract is a minimalist soulbound ERC-721 implementation
 
 ## Methods
 
+### addVoters
+
+```solidity
+function addVoters(address[] _voterAddress) external nonpayable
+```
+
+Whitelists votersOnly the owner can add voters to the whitelist.
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _voterAddress | address[] | Address of the voters |
+
 ### approve
 
 ```solidity
@@ -72,7 +88,7 @@ BaseURI of the NFT
 function burn(uint256 _id) external nonpayable
 ```
 
-Burns the soulbound badge NFT.
+Burns the soulbound voter badge NFT.
 
 
 
@@ -127,13 +143,13 @@ function isApprovedForAll(address owner, address operator) external view returns
 |---|---|---|
 | _0 | bool | undefined |
 
-### mint
+### isVoter
 
 ```solidity
-function mint(address _citizen) external nonpayable
+function isVoter(address) external view returns (bool)
 ```
 
-Mints the soulbound badge NFT.Only Admin contract i.e BadgeAdmin contract can mint the badge.
+Maps from the address to the voter status.
 
 
 
@@ -141,7 +157,13 @@ Mints the soulbound badge NFT.Only Admin contract i.e BadgeAdmin contract can mi
 
 | Name | Type | Description |
 |---|---|---|
-| _citizen | address | Address of the citizen |
+| _0 | address | undefined |
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | bool | undefined |
 
 ### name
 
@@ -198,6 +220,22 @@ function ownerOf(uint256 tokenId) external view returns (address)
 | Name | Type | Description |
 |---|---|---|
 | _0 | address | undefined |
+
+### register
+
+```solidity
+function register(address _voterAddress) external nonpayable
+```
+
+Registering mints a soulbound voter badge NFT which gives voting access for a given round.Only a whitelisted voter can register. 
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| _voterAddress | address | Address of the voter |
 
 ### renounceOwnership
 
@@ -461,6 +499,22 @@ event Transfer(address indexed from, address indexed to, uint256 indexed tokenId
 | from `indexed` | address | undefined |
 | to `indexed` | address | undefined |
 | tokenId `indexed` | uint256 | undefined |
+
+### VoterAdded
+
+```solidity
+event VoterAdded(address indexed voterAddress)
+```
+
+Emitted when a voter is added to the whitelist
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| voterAddress `indexed` | address | undefined |
 
 
 
