@@ -6,11 +6,12 @@ import { artifacts, ethers, upgrades } from "hardhat";
 import { Artifact } from "hardhat/types";
 import {
   QVFactory,
+  // eslint-disable-next-line camelcase
   QVFactory__factory,
   QVImplementation,
   VoterRegister,
 } from "../typechain";
-import { BigNumber, utils, Wallet } from "ethers";
+import { utils } from "ethers";
 import { AddressZero } from "@ethersproject/constants";
 
 const encoder = new utils.AbiCoder();
@@ -72,7 +73,7 @@ describe("QVFactory", () => {
       qvImplementation = <QVImplementation>(
         await deployContract(user, qvImplementationArtifact, [])
       );
-      console.log(qvImplementation);
+
       // Deploy Voter register contract
       VoterRegisterArtifact = await artifacts.readArtifact("VoterRegister");
       VoterRegister = <VoterRegister>(

@@ -73,6 +73,7 @@ describe("QVImplementation", function () {
           "TEST",
           "TEST",
           "TEST",
+          [user0.address, user1.address]
         ])
       );
 
@@ -88,7 +89,7 @@ describe("QVImplementation", function () {
     describe("test: vote", () => {
       it("QVContract SHOULD allow a registered user to vote", () => {
         // mint the voter register
-        VoterRegister.mint(user0.address);
+        VoterRegister.register(user0.address);
 
         const encodedVotes = [
           encodeVote(
@@ -115,7 +116,7 @@ describe("QVImplementation", function () {
       });
       it("QVContract SHOULD emit an event on vote", async () => {
         // mint the voter register
-        VoterRegister.mint(user1.address);
+        VoterRegister.register(user1.address);
 
         const encodedVotes = [
           encodeVote(
