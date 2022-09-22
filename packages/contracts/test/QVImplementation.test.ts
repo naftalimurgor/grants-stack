@@ -36,7 +36,7 @@ describe("QVImplementation", function () {
   };
 
   describe("constructor", () => {
-    it("deploys properly", async () => {
+    it("QVContract SHOULD deploy properly", async () => {
       [user0, user1] = await ethers.getSigners();
 
       QVImplementationArtifact = await artifacts.readArtifact(
@@ -86,7 +86,7 @@ describe("QVImplementation", function () {
     });
 
     describe("test: vote", () => {
-      it("should allow a minted user to vote", () => {
+      it("QVContract SHOULD allow a registered user to vote", () => {
         // mint the voter register
         VoterRegister.mint(user0.address);
 
@@ -102,17 +102,18 @@ describe("QVImplementation", function () {
         ];
         QVImplementation.vote(encodedVotes, user0.address);
       });
-      it("should prevent unregistered users from voting", () => {
+      it("QVContract SHOULD prevent unregistered users from voting", () => {
         const encodedVotes = [
           encodeVote(
             "0x657468657265756d000000000000000000000000000000000000000000000000",
             10
           ),
         ];
+        // eslint-disable-next-line no-unused-expressions
         expect(QVImplementation.vote(encodedVotes, user1.address)).to.be
           .reverted;
       });
-      it("should emit an event on vote", async () => {
+      it("QVContract SHOULD emit an event on vote", async () => {
         // mint the voter register
         VoterRegister.mint(user1.address);
 
@@ -130,13 +131,6 @@ describe("QVImplementation", function () {
             BigNumber.from(16),
             BigNumber.from(4)
           );
-      });
-    });
-
-    describe("test: tally", () => {
-      it("should tally the votes", async () => {
-        expect(QVImplementation.tally()).to.emit(QVImplementation, "Tallied");
-        // TODO: check that the votes were tallied correctly
       });
     });
   });
