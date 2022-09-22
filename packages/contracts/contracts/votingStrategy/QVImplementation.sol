@@ -21,24 +21,6 @@ contract QVImplementation is
     using Address for address;
 
     /**
-     * @notice Set data structure.
-     */
-    struct Set {
-        bytes32[] ids;
-        mapping(bytes32 => bool) is_in;
-    }
-
-    /**
-     * @notice Tally structure.
-     * @param voteCredits
-     * @param votes
-     */
-    struct Tally {
-        uint256 voteCredits;
-        uint256 votes;
-    }
-
-    /**
      * @notice Emitted when the voter badge is updated
      */
     event VoterRegisterUpdated(
@@ -55,11 +37,6 @@ contract QVImplementation is
         uint256 indexed voteCredits,
         uint256 votes
     );
-
-    /**
-     * @notice Emitted when the votes are tallied
-     */
-    event Tallied(bytes oldTally, bytes indexed currentTally);
 
     /**
      * @dev Round operator role
@@ -82,24 +59,9 @@ contract QVImplementation is
     bytes[] public votesData;
 
     /**
-     * @notice The tally count.
-     */
-    bytes public currentTally;
-
-    /**
-     * @notice Mapping of vote ID to vote data.
-     */
-    mapping(bytes32 => Tally) public tallies;
-
-    /**
      * @notice Mapping of voter address to vote credits used.
      */
     mapping(address => uint256) public voteCreditsUsed;
-
-    /**
-     * @notice A unique set of the the tally
-     */
-    Set tallySet;
 
     /**
      * @notice Instantiates a new QV contract
@@ -186,39 +148,5 @@ contract QVImplementation is
             );
             emit Voted(voterAddress, grantID, voteCredits, votes);
         }
-    }
-
-    /**
-     * @notice Tally the votes.
-     * @dev This function will calculate and store the a tally of the votes.
-     * This can be called at any time by anyone.
-     */
-    function tally() external {
-        // For every vote, decode the vote data, add the vote voteCredits and votes to IDs vote data
-        for (uint256 i = 0; i < votesData.length; i++) {
-            (, bytes32 grantID, uint256 voteCredits, uint256 votes) = abi
-                .decode(votesData[i], (address, bytes32, uint256, uint256));
-            // If the ID is not in the set, it has not been voted for yet. Add it to the set storage and continue for future votes.
-            if (!tallySet.is_in[grantID]) {
-                tallySet.ids.push(grantID);
-                tallySet.is_in[grantID] = true;
-            }
-            tallies[grantID].voteCredits += voteCredits;
-            tallies[grantID].votes += votes;
-        }
-
-        bytes32[] memory ids = new bytes32[](tallySet.ids.length);
-        uint256[] memory totalVoteCredits = new uint256[](tallySet.ids.length);
-        uint256[] memory totalVotes = new uint256[](tallySet.ids.length);
-
-        for (uint256 j = 0; j < tallySet.ids.length; j++) {
-            ids[j] = tallySet.ids[j];
-            totalVoteCredits[j] = tallies[tallySet.ids[j]].voteCredits;
-            totalVotes[j] = tallies[tallySet.ids[j]].votes;
-        }
-
-        bytes memory newTally = abi.encode(ids, totalVoteCredits, totalVotes);
-        emit Tallied(currentTally, newTally);
-        currentTally = newTally;
     }
 }

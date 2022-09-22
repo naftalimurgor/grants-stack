@@ -61,23 +61,6 @@ The voters initial vote credit amount
 |---|---|---|
 | _0 | uint256 | undefined |
 
-### currentTally
-
-```solidity
-function currentTally() external view returns (bytes)
-```
-
-The tally count.
-
-
-
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | bytes | undefined |
-
 ### getRoleAdmin
 
 ```solidity
@@ -257,40 +240,6 @@ function supportsInterface(bytes4 interfaceId) external view returns (bool)
 |---|---|---|
 | _0 | bool | undefined |
 
-### tallies
-
-```solidity
-function tallies(bytes32) external view returns (uint256 voteCredits, uint256 votes)
-```
-
-Mapping of vote ID to vote data.
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | bytes32 | undefined |
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| voteCredits | uint256 | undefined |
-| votes | uint256 | undefined |
-
-### tally
-
-```solidity
-function tally() external nonpayable
-```
-
-Tally the votes.
-
-*This function will calculate and store the a tally of the votes. This can be called at any time by anyone.*
-
-
 ### updateVoterRegister
 
 ```solidity
@@ -458,23 +407,6 @@ event RoleRevoked(bytes32 indexed role, address indexed account, address indexed
 | role `indexed` | bytes32 | undefined |
 | account `indexed` | address | undefined |
 | sender `indexed` | address | undefined |
-
-### Tallied
-
-```solidity
-event Tallied(bytes oldTally, bytes indexed currentTally)
-```
-
-Emitted when the votes are tallied
-
-
-
-#### Parameters
-
-| Name | Type | Description |
-|---|---|---|
-| oldTally  | bytes | undefined |
-| currentTally `indexed` | bytes | undefined |
 
 ### Voted
 
