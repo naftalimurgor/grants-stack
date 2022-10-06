@@ -4,13 +4,13 @@ import { deployContract } from "ethereum-waffle";
 import { isAddress } from "ethers/lib/utils";
 import { artifacts, ethers } from "hardhat";
 import { Artifact } from "hardhat/types";
-import { QVImplementation, VoterRegister } from "../typechain";
+import { QuadraticVotingStrategy, VoterRegister } from "../typechain";
 import { BigNumber, utils } from "ethers";
 
-describe("QVImplementation", function () {
+describe("QuadraticVotingStrategy", function () {
   let user0: SignerWithAddress;
   let user1: SignerWithAddress;
-  let QVImplementation: QVImplementation;
+  let QuadraticVotingStrategy: QuadraticVotingStrategy;
   let QVImplementationArtifact: Artifact;
   let VoterRegisterArtifact: Artifact;
   let VoterRegister: VoterRegister;
@@ -40,17 +40,17 @@ describe("QVImplementation", function () {
       [user0, user1] = await ethers.getSigners();
 
       QVImplementationArtifact = await artifacts.readArtifact(
-        "QVImplementation"
+        "QuadraticVotingStrategy"
       );
-      QVImplementation = <QVImplementation>(
+      QuadraticVotingStrategy = <QuadraticVotingStrategy>(
         await deployContract(user0, QVImplementationArtifact, [])
       );
 
       // Verify deploy
       // eslint-disable-next-line no-unused-expressions
       expect(
-        isAddress(QVImplementation.address),
-        "Failed to deploy QVImplementation"
+        isAddress(QuadraticVotingStrategy.address),
+        "Failed to deploy QuadraticVotingStrategy"
       ).to.be.true;
     });
   });
@@ -59,11 +59,11 @@ describe("QVImplementation", function () {
     before(async () => {
       [user0, user1] = await ethers.getSigners();
 
-      // Deploy QVImplementation contract
+      // Deploy QuadraticVotingStrategy contract
       QVImplementationArtifact = await artifacts.readArtifact(
-        "QVImplementation"
+        "QuadraticVotingStrategy"
       );
-      QVImplementation = <QVImplementation>(
+      QuadraticVotingStrategy = <QuadraticVotingStrategy>(
         await deployContract(user0, QVImplementationArtifact, [])
       );
 
@@ -83,7 +83,7 @@ describe("QVImplementation", function () {
         [user0.address],
         [user0.address]
       );
-      QVImplementation.initialize(encodedParams);
+      QuadraticVotingStrategy.initialize(encodedParams);
     });
 
     describe("test: vote", () => {
@@ -101,7 +101,7 @@ describe("QVImplementation", function () {
             4
           ),
         ];
-        QVImplementation.vote(encodedVotes, user0.address);
+        QuadraticVotingStrategy.vote(encodedVotes, user0.address);
       });
       it("QVContract SHOULD prevent unregistered users from voting", () => {
         const encodedVotes = [
@@ -111,7 +111,7 @@ describe("QVImplementation", function () {
           ),
         ];
         // eslint-disable-next-line no-unused-expressions
-        expect(QVImplementation.vote(encodedVotes, user1.address)).to.be
+        expect(QuadraticVotingStrategy.vote(encodedVotes, user1.address)).to.be
           .reverted;
       });
       it("QVContract SHOULD emit an event on vote", async () => {
@@ -124,8 +124,8 @@ describe("QVImplementation", function () {
             16
           ),
         ];
-        expect(QVImplementation.vote(encodedVotes, user1.address))
-          .to.emit(QVImplementation, "Voted")
+        expect(QuadraticVotingStrategy.vote(encodedVotes, user1.address))
+          .to.emit(QuadraticVotingStrategy, "Voted")
           .withArgs(
             user1.address,
             "0x657468657265756d000000000000000000000000000000000000000000000000",

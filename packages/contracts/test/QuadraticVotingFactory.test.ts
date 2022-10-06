@@ -5,10 +5,10 @@ import { isAddress } from "ethers/lib/utils";
 import { artifacts, ethers, upgrades } from "hardhat";
 import { Artifact } from "hardhat/types";
 import {
-  QVFactory,
+  QuadraticVotingFactory,
   // eslint-disable-next-line camelcase
-  QVFactory__factory,
-  QVImplementation,
+  QuadraticVotingFactory__factory,
+  QuadraticVotingStrategy,
   VoterRegister,
 } from "../typechain";
 import { utils } from "ethers";
@@ -28,16 +28,16 @@ const encodeParameters = (
   );
 };
 
-describe("QVFactory", () => {
+describe("QuadraticVotingFactory", () => {
   let user: SignerWithAddress;
 
   // QV Factory
-  let qvFactory: QVFactory;
+  let qvFactory: QuadraticVotingFactory;
   // eslint-disable-next-line camelcase
-  let qvContractFactory: QVFactory__factory;
+  let qvContractFactory: QuadraticVotingFactory__factory;
 
   // QV Implementation
-  let qvImplementation: QVImplementation;
+  let qvImplementation: QuadraticVotingStrategy;
   let qvImplementationArtifact: Artifact;
 
   // Voter Register
@@ -45,15 +45,15 @@ describe("QVFactory", () => {
   let VoterRegisterArtifact: Artifact;
 
   describe("constructor", () => {
-    it("QVFactory SHOULD deploy properly", async () => {
+    it("QuadraticVotingFactory SHOULD deploy properly", async () => {
       [user] = await ethers.getSigners();
 
-      qvContractFactory = await ethers.getContractFactory("QVFactory");
-      qvFactory = <QVFactory>await qvContractFactory.deploy();
+      qvContractFactory = await ethers.getContractFactory("QuadraticVotingFactory");
+      qvFactory = <QuadraticVotingFactory>await qvContractFactory.deploy();
 
       // Verify deploy
       // eslint-disable-next-line no-unused-expressions
-      expect(isAddress(qvFactory.address), "Failed to deploy QVFactory").to.be
+      expect(isAddress(qvFactory.address), "Failed to deploy QuadraticVotingFactory").to.be
         .true;
     });
   });
@@ -62,15 +62,15 @@ describe("QVFactory", () => {
     beforeEach(async () => {
       [user] = await ethers.getSigners();
 
-      // Deploy QVFactory contract
-      qvContractFactory = await ethers.getContractFactory("QVFactory");
-      qvFactory = <QVFactory>await upgrades.deployProxy(qvContractFactory);
+      // Deploy QuadraticVotingFactory contract
+      qvContractFactory = await ethers.getContractFactory("QuadraticVotingFactory");
+      qvFactory = <QuadraticVotingFactory>await upgrades.deployProxy(qvContractFactory);
 
-      // Deploy QVImplementation contract
+      // Deploy QuadraticVotingStrategy contract
       qvImplementationArtifact = await artifacts.readArtifact(
-        "QVImplementation"
+        "QuadraticVotingStrategy"
       );
-      qvImplementation = <QVImplementation>(
+      qvImplementation = <QuadraticVotingStrategy>(
         await deployContract(user, qvImplementationArtifact, [])
       );
 
