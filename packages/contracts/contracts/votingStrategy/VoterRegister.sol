@@ -12,7 +12,6 @@ import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
  */
 contract VoterRegister is ERC721, Ownable {
 
-
     /**
      * @notice Emitted when a voter is added to the whitelist
      */

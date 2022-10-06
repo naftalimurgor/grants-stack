@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity ^0.8.0;
 
-import "./QVImplementation.sol";
+import "./QuadraticVotingStrategy.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/ClonesUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-contract QVFactory is OwnableUpgradeable {
+contract QuadraticVotingFactory is OwnableUpgradeable {
     
   address public qvContract;
 
@@ -53,7 +53,7 @@ contract QVFactory is OwnableUpgradeable {
 
     emit QVCreated(clone, ownedBy);
 
-    QVImplementation(clone).initialize(
+    QuadraticVotingStrategy(clone).initialize(
       encodedParameters
     );
 

@@ -13,7 +13,7 @@ import "./IVotingStrategy.sol";
  * a group of ROUND_OPERATOR
  *
  */
-contract QVImplementation is
+contract QuadraticVotingStrategy is
     IVotingStrategy,
     AccessControlEnumerable,
     Initializable
@@ -38,6 +38,10 @@ contract QVImplementation is
         uint256 votes
     );
 
+    event InitializedQV(
+        uint256 indexed voteCredits,
+        address indexed voterRegister
+    );
     /**
      * @dev Round operator role
      */
@@ -46,7 +50,7 @@ contract QVImplementation is
     /**
      * @notice The voters initial vote credit amount
      */
-    uint256 public VOTE_CREDITS;
+    uint256 public voteCredits;
 
     /**
      * @notice The voter register contract
@@ -83,8 +87,8 @@ contract QVImplementation is
                 encodedParameters,
                 (uint256, address, address[], address[])
             );
-
-        VOTE_CREDITS = _voteCredits;
+        // require(_voterRegister != address(0), "NO");
+        voteCredits = _voteCredits;
         voterRegister = _voterRegister;
 
         // Assigning default admin role
@@ -96,6 +100,7 @@ contract QVImplementation is
         for (uint256 i = 0; i < _roundOperators.length; ++i) {
             _grantRole(ROUND_OPERATOR_ROLE, _roundOperators[i]);
         }
+        emit InitializedQV(_voteCredits, _voterRegister);
     }
 
     /**
@@ -106,6 +111,7 @@ contract QVImplementation is
         external
         onlyRole(ROUND_OPERATOR_ROLE)
     {
+        // require(newVoterRegister != address(0), "NO");
         emit VoterRegisterUpdated(voterRegister, newVoterRegister);
         voterRegister = newVoterRegister;
     }
@@ -128,8 +134,10 @@ contract QVImplementation is
             IERC721(voterRegister).balanceOf(voterAddress) > 0,
             "NOT_REGISTERED"
         );
+        if (IERC721(voterRegister).balanceOf(voterAddress) <= 0) 
+            revert("NOT_REGISTERED");
         require(
-            voteCreditsUsed[voterAddress] < VOTE_CREDITS,
+            voteCreditsUsed[voterAddress] < voteCredits,
             "INSUFFICIENT_CREDITS"
         );
         for (uint256 i = 0; i < encodedVotes.length; i++) {
@@ -138,7 +146,7 @@ contract QVImplementation is
                 (bytes32, uint256)
             );
             require(
-                (voteCreditsUsed[voterAddress] + voteCredits) < VOTE_CREDITS,
+                (voteCreditsUsed[voterAddress] + voteCredits) < voteCredits,
                 "INSUFFICIENT_CREDITS"
             );
             uint256 votes = Math.sqrt(voteCredits);

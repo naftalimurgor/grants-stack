@@ -1,4 +1,4 @@
-# QVImplementation
+# QuadraticVotingStrategy
 
 
 
@@ -43,23 +43,6 @@ function ROUND_OPERATOR_ROLE() external view returns (bytes32)
 | Name | Type | Description |
 |---|---|---|
 | _0 | bytes32 | undefined |
-
-### VOTE_CREDITS
-
-```solidity
-function VOTE_CREDITS() external view returns (uint256)
-```
-
-The voters initial vote credit amount
-
-
-
-
-#### Returns
-
-| Name | Type | Description |
-|---|---|---|
-| _0 | uint256 | undefined |
 
 ### getRoleAdmin
 
@@ -273,6 +256,23 @@ Invoked by RoundImplementation which allows a voter to cast votes to multiple gr
 | encodedVotes | bytes[] | encoded list of votes |
 | voterAddress | address | voter address |
 
+### voteCredits
+
+```solidity
+function voteCredits() external view returns (uint256)
+```
+
+The voters initial vote credit amount
+
+
+
+
+#### Returns
+
+| Name | Type | Description |
+|---|---|---|
+| _0 | uint256 | undefined |
+
 ### voteCreditsUsed
 
 ```solidity
@@ -353,6 +353,23 @@ event Initialized(uint8 version)
 | Name | Type | Description |
 |---|---|---|
 | version  | uint8 | undefined |
+
+### InitializedQV
+
+```solidity
+event InitializedQV(uint256 indexed voteCredits, address indexed voterRegister)
+```
+
+
+
+
+
+#### Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| voteCredits `indexed` | uint256 | undefined |
+| voterRegister `indexed` | address | undefined |
 
 ### RoleAdminChanged
 
