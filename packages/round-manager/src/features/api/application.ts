@@ -255,16 +255,15 @@ const fetchApplicationData = async (
           owners: projectOwners.map((address: string) => ({ address })),
         };
 
-        return {
-          ...application,
-          status,
-          id: project.id,
-          project: grantApplicationProjectMetadata,
-          projectsMetaPtr: project.round.projectsMetaPtr,
-          createdAt: project.createdAt,
-        } as GrantApplication;
-      }
-    )
+      return {
+        ...application,
+        status,
+        id: project.id,
+        project: grantApplicationProjectMetadata,
+        projectsMetaPtr: project.round.projectsMetaPtr,
+        createdAt: project.createdAt,
+      } as GrantApplication;
+    })
   );
 
 /**

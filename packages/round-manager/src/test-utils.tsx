@@ -204,6 +204,7 @@ export const makeGrantApplicationData = (
     });
   }
 
+  // @ts-expect-error type system madness
   return {
     id:
       applicationIdOverride ||
