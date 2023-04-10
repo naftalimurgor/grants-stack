@@ -55,7 +55,7 @@ export default function Github({
     props.formMetaData.projectGithub
   );
 
-  // Fetch Github OAuth2 url from the IAM procedure
+  // Fetch GitHub OAuth2 url from the IAM procedure
   async function handleFetchGithubOAuth(): Promise<void> {
     const width = 600;
     const height = 800;
@@ -90,7 +90,7 @@ export default function Github({
     target: string;
     data: { code: string; state: string };
   }) {
-    // when receiving github oauth response from a spawned child run fetchVerifiableCredential
+    // when receiving GitHub oauth response from a spawned child run fetchVerifiableCredential
     if (e.target === "github") {
       // pull data from message
       const { code } = e.data;
@@ -109,7 +109,7 @@ export default function Github({
           org,
           requestedClient: ClientType.GrantHub,
           proofs: {
-            code, // provided by github as query params in the redirect
+            code, // provided by GitHub as query params in the redirect
           },
         },
         signer as { signMessage: (message: string) => Promise<string> }

@@ -89,7 +89,7 @@ function Landing() {
     return <div />;
   }
 
-  // if Github oauth then submit message to other windows and close self
+  // if GitHub oauth then submit message to other windows and close self
   if (
     (queryError || queryCode) &&
     queryState &&

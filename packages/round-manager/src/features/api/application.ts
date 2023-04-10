@@ -255,15 +255,16 @@ const fetchApplicationData = async (
           owners: projectOwners.map((address: string) => ({ address })),
         };
 
-      return {
-        ...application,
-        status,
-        id: project.id,
-        project: grantApplicationProjectMetadata,
-        projectsMetaPtr: project.round.projectsMetaPtr,
-        createdAt: project.createdAt,
-      } as GrantApplication;
-    })
+        return {
+          ...application,
+          status,
+          id: project.id,
+          project: grantApplicationProjectMetadata,
+          projectsMetaPtr: project.round.projectsMetaPtr,
+          createdAt: project.createdAt,
+        } as GrantApplication;
+      }
+    )
   );
 
 /**
@@ -285,7 +286,7 @@ const updateApplicationStatusFromContract = async (
   projectsMetaPtr: MetadataPointer,
   filterByStatus?: string
 ) => {
-  // Handle scenario where operator hasn't review any projects in the round
+  // Handle scenario where operator hasn't reviewed any projects in the round
   if (!projectsMetaPtr)
     return filterByStatus
       ? applications.filter(
