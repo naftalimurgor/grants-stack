@@ -76,7 +76,7 @@ export const makeRoundData = (overrides: Partial<Round> = {}): Round => {
         matchingCap: true,
         matchingCapAmount: 100,
         matchingFundsAvailable: 1000,
-        minDonationThreshold: true, 
+        minDonationThreshold: true,
         minDonationThresholdAmount: 1,
         sybilDefense: false,
       },
@@ -204,7 +204,6 @@ export const makeGrantApplicationData = (
     });
   }
 
-  // @ts-expect-error type system madness
   return {
     id:
       applicationIdOverride ||

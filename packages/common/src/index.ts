@@ -320,3 +320,25 @@ export const convertStatusToText = (
       return "PENDING";
   }
 };
+
+export const prefixZero = (i: number): string =>
+  i < 10 ? "0" + i : i.toString();
+
+export const getUTCDate = (date: Date): string => {
+  const utcDate = [
+    prefixZero(date.getUTCDate()),
+    prefixZero(date.getUTCMonth() + 1),
+    prefixZero(date.getUTCFullYear()),
+  ];
+
+  return utcDate.join("/");
+};
+
+export const getUTCTime = (date: Date): string => {
+  const utcTime = [
+    prefixZero(date.getUTCHours()),
+    prefixZero(date.getUTCMinutes()),
+  ];
+
+  return utcTime.join(":") + " UTC";
+};
