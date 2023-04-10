@@ -401,6 +401,7 @@ export interface ApplicationSchema {
  * This function generates the round application schema to be stored in a decentralized storage
  *
  * @param questions - The metadata of a round application
+ * @param requirements
  * @returns The application schema
  */
 export const generateApplicationSchema = (

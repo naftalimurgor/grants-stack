@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { errorModalDelayMs } from "../../constants";
 import { useFinalizeRound } from "../../context/round/FinalizeRoundContext";
-import { setReadyForPayout } from "../../features/api/round";
+import { setReadyForPayout } from "../api/round";
 import { useRoundMatchData } from "../api/api";
 import { useFetchMatchingDistributionFromContract } from "../api/payoutStrategy/merklePayoutStrategy";
 import {
@@ -180,10 +180,7 @@ const getPayoutReadyStatus = (
   isDistributionAvailableOnChain?: boolean,
   hasReadyForPayoutBeenExecuted?: boolean
 ): boolean => {
-  if (!isDistributionAvailableOnChain || hasReadyForPayoutBeenExecuted) {
-    return false;
-  }
-  return true;
+  return !(!isDistributionAvailableOnChain || hasReadyForPayoutBeenExecuted);
 };
 
 function InformationTable(props: {
