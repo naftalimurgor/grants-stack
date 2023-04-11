@@ -228,6 +228,9 @@ export const useApplicationByRoundId = (
     fetchApplicationsByRoundId(context.dispatch, roundId, walletProvider);
   }, [roundId, walletProvider]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  /*TODO: use `common`s verifyOwnerOfApplication to filter out applications
+   *  submitted by wallets that arent't owners of the project they're applying with */
+
   return {
     applications: context.state.applications,
     isLoading: context.state.isLoading,

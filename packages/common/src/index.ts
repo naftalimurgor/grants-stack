@@ -320,3 +320,16 @@ export const convertStatusToText = (
       return "PENDING";
   }
 };
+
+/**
+ * Verifies that the submitter of an application is also the project owner.
+ * */
+export function verifyOwnerOfApplication(
+  chainId: ChainId,
+  registry: string,
+  projectId: string,
+  sender: string
+) {
+  /* Get the project owner from the registry using the project id */
+  /* Verify that it's owner address is the same as the `sender` argument */
+}
