@@ -327,14 +327,15 @@ export const convertStatusToText = (
  * */
 export function verifyOwnerOfApplication(
   chainId: ChainId,
-  registry: string,
   projectId: string,
   sender: string
-) {
-  /* Get the project owner from the registry using the project id */
+): boolean {
   /* Get current owners of a project */
   /*TODO: what to do about applications of past owners? */
-  /* Verify that it's owner address is the same as the `sender` argument */
+  const owners = fetchProjectOwners(chainId, projectId);
+
+  /* Verify that sender is in the owners of the project*/
+  return owners.includes(sender);
 }
 
 export const fetchProjectOwners = (chainID: number, projectID: string) => {
@@ -347,7 +348,7 @@ export const fetchProjectOwners = (chainID: number, projectID: string) => {
     appProvider
   );
 
-  return projectRegistry.getProjectOwners(projectID);
+  return projectRegistry.getProjectOwners(projectID) as string[];
 };
 
 export const getProviderByChainId = (chainId: number) => {
